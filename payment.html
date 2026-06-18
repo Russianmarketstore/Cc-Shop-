@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment Gateway</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #0b111e; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; }
+        .box { background-color: #111827; border: 1px solid #1f2937; max-width: 350px; width: 100%; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        
+        .secure-badge { font-size: 11px; color: #10b981; border: 1px solid #10b981; padding: 4px 8px; border-radius: 20px; display: inline-block; margin-bottom: 20px; }
+        .amount-display { font-size: 42px; font-weight: bold; color: #fff; margin: 10px 0; }
+        
+        .pay-btn { background: #10b981; color: white; padding: 18px; border: none; border-radius: 12px; width: 100%; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.3s; }
+        .pay-btn:hover { background: #059669; }
+        
+        .upi-logos { margin-top: 25px; display: flex; justify-content: center; gap: 15px; opacity: 0.5; }
+        .upi-logos span { font-size: 12px; }
+        
+        .processing-bar { width: 100%; height: 4px; background: #1e293b; margin-top: 20px; border-radius: 2px; overflow: hidden; }
+        .progress { width: 40%; height: 100%; background: #38bdf8; animation: load 2s infinite linear; }
+        @keyframes load { 0% { margin-left: -40%; } 100% { margin-left: 100%; } }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="secure-badge">🔒 SSL SECURED PAYMENT</div>
+        <p>Paying to: <b>RussianMarket</b></p>
+        <div class="amount-display" id="finalPrice">₹0</div>
+        <p style="color: #9ca3af; font-size: 13px;">Please complete the payment within 5 minutes.</p>
+
+        <button class="pay-btn" onclick="payNow()">PAY NOW via UPI</button>
+
+        <div class="processing-bar"><div class="progress"></div></div>
+
+        <div class="upi-logos">
+            <span>GPay</span> <span>PhonePe</span> <span>Paytm</span> <span>BHIM</span>
+        </div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const card = params.get('card') || 'Card';
+        const price = params.get('price') || '0';
+        
+        document.getElementById('finalPrice').innerText = '₹' + price;
+
+        function payNow() {
+            // UPI Intent: Jab user button dabayega, phone ka UPI app automatic khul jayega
+            window.location.href = `upi://pay?pa=aaditya120@ptyes&pn=RussianMarket&am=${price}&cu=INR&tn=Payment for ${card}`;
+        }
+    </script>
+</body>
+</html>
